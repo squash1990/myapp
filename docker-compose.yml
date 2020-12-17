@@ -13,7 +13,7 @@ services:
     build: "catalogo"
     depends_on:
       - db
-    image: myapp:latest
+    image: catalogo:latest
     working_dir: /local/app
     env_file:
       - .env.catalogo
