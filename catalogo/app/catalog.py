@@ -1,29 +1,26 @@
+import sys
 import uuid
+from db.database import get_db
+
 def get_products():
-	fake_response = [{
-		"sku": uuid.uuid4(),
-		"title": "Vanilla icecream",
-		"long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies eleifend tortor at tempor. Nullam iaculis nulla quis ipsum bibendum, sit amet elementum tellus malesuada. Nam porttitor sapien nec sapien placerat, at auctor nisl feugiat. Praesent et faucibus nisi. Sed sit amet malesuada odio, vel lacinia erat. Donec maximus ipsum leo, quis eleifend sapien euismod sed. Aliquam nec molestie nunc, et auctor lacus. Cras scelerisque mauris tellus, aliquam luctus enim laoreet nec. Duis ullamcorper vitae eros ut condimentum.",
-		"price": 1.5
-	}, {
-		
-		"sku": uuid.uuid4(), '''sku = codigo univoco de referencia que lo hacemos con la libreria uuid'''
-		"title": "Cola icecream",
-		"long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies eleifend tortor at tempor. Nullam iaculis nulla quis ipsum bibendum, sit amet elementum tellus malesuada. Nam porttitor sapien nec sapien placerat, at auctor nisl feugiat. Praesent et faucibus nisi. Sed sit amet malesuada odio, vel lacinia erat. Donec maximus ipsum leo, quis eleifend sapien euismod sed. Aliquam nec molestie nunc, et auctor lacus. Cras scelerisque mauris tellus, aliquam luctus enim laoreet nec. Duis ullamcorper vitae eros ut condimentum.",
-		"price": 1.5
-	}, {
-		"sku": uuid.uuid4(), '''sku = codigo univoco de referencia que lo hacemos con la libreria uuid'''
-		"title": "Choco icecream",
-		"long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies eleifend tortor at tempor. Nullam iaculis nulla quis ipsum bibendum, sit amet elementum tellus malesuada. Nam porttitor sapien nec sapien placerat, at auctor nisl feugiat. Praesent et faucibus nisi. Sed sit amet malesuada odio, vel lacinia erat. Donec maximus ipsum leo, quis eleifend sapien euismod sed. Aliquam nec molestie nunc, et auctor lacus. Cras scelerisque mauris tellus, aliquam luctus enim laoreet nec. Duis ullamcorper vitae eros ut condimentum.",
-		"price": 1.5
-	}, {
-		"sku": uuid.uuid4(), '''sku = codigo univoco de referencia que lo hacemos con la libreria uuid'''
-		"title": "Lemon icecream",
-		"long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ultricies eleifend tortor at tempor. Nullam iaculis nulla quis ipsum bibendum, sit amet elementum tellus malesuada. Nam porttitor sapien nec sapien placerat, at auctor nisl feugiat. Praesent et faucibus nisi. Sed sit amet malesuada odio, vel lacinia erat. Donec maximus ipsum leo, quis eleifend sapien euismod sed. Aliquam nec molestie nunc, et auctor lacus. Cras scelerisque mauris tellus, aliquam luctus enim laoreet nec. Duis ullamcorper vitae eros ut condimentum.",
-		"price": 1.5
-	}]
-	return fake_response
+    db = get_db()
+
+    cursor = db.cursor()
+    postgreSQL_select_Query = "select sku, title, long_description, price from productos"
+
+    cursor.execute(postgreSQL_select_Query)
+    products = cursor.fetchall()
+
+    response = []
+    for product in products:
+        response.append({
+            "sku": product[0],
+            "title": product[1],
+            "long_description": product[2],
+            "price": product[3],
+        })
+    return response
 
 def create_product(sku, title, long_description, price_euro):
 	''' Insertar todo esto en una bbdd '''
-	print(f"Crear sku={sku} y title={title}")
+	print(f"Crear sku={sku} y title={title}", file=sys.stderr)
