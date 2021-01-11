@@ -2,6 +2,11 @@ version: '3.3'
 
 services:
 
+  redis:
+    image: redis
+    expose:
+      - "6379"
+
   db:
     image: postgres
     env_file:
@@ -13,8 +18,12 @@ services:
     build: "catalogo"
     depends_on:
       - db
+      - redis
     image: catalogo:latest
     working_dir: /local/app
+    environment: 
+     - REDIS_HOST=redis
+     - REDIS_PORT=6379
     env_file:
       - .env.catalogo
     volumes:
