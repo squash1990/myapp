@@ -7,13 +7,15 @@ import redis
 app = Flask(__name__)
 CORS(app)
 
+# Obtenemos la información de las variables de entorno para después chequear que estan correctos.
 redis_host = os.environ.get('REDIS_HOST', None)
 redis_port = os.environ.get('REDIS_PORT', None)
 
+# Una vez chequeados los importamos al conector de redis para después hacer las peticiones y dejarlas en cache
 if redis_host and redis_port:
     redis_client = redis.Redis(
-        host=os.getenv('REDIS_HOST'),
-        port=os.getenv('REDIS_PORT'),
+        host=os.getenv('REDIS_HOST'), # Importamos las variables de entorno que estan en el docker-compose o en los ficheros
+        port=os.getenv('REDIS_PORT'), # Importamos el puerto
         db=0, decode_responses=True
     )
 else:

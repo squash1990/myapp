@@ -27,9 +27,7 @@ def get_product(sku):
     db = get_db()
 
     cursor = db.cursor()
-    postgre_sql_select_query = """
-        select sku, title, long_description, price
-        from productos where sku=%s"""
+    postgre_sql_select_query = """select sku, title, long_description, price from productos where sku=%s"""
 
     cursor.execute(postgre_sql_select_query, (sku, ))
     product = cursor.fetchone()
